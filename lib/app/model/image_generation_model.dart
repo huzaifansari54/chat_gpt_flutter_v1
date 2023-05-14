@@ -1,4 +1,4 @@
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 class ImageGenerationModel {
   final num created;
@@ -19,13 +19,14 @@ class ImageGenerationModel {
   }
 }
 
-class ImageGenerationData{
+class ImageGenerationData {
   final String url;
 
   ImageGenerationData({required this.url});
 
-
-  factory ImageGenerationData.fromJson(Map<String,dynamic> json){
-    return ImageGenerationData(url: json['url'],);
+  factory ImageGenerationData.fromJson(Map<String, dynamic> json) {
+    return ImageGenerationData(
+      url: json['url'],
+    );
   }
 }

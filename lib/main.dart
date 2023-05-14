@@ -1,10 +1,27 @@
+import 'dart:io';
+import 'package:chat_gpt_flutter/injectiables/injectable_.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'app/model/HiveModel/favorite_image_model.dart';
 import 'app/routes/app_pages.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(FavoriteImageModelAdapter());
+  HttpOverrides.global = MyHttpOverrides();
+  await configureDependencies();
+  runApp(const ProviderScope(child: MyApp()));
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -12,14 +29,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Chat GPT -Flutter',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
+      routes: Routes.routes(),
     );
   }
 }

@@ -1,34 +1,34 @@
-import 'package:get/get.dart';
+import 'package:chat_gpt_flutter/app/features/Favorites/favorites.dart';
+import 'package:chat_gpt_flutter/app/features/chat_image/views/widgets/show_image.dart';
+import 'package:chat_gpt_flutter/app/features/chat_text/views/chat_text_view.dart';
+import 'package:flutter/material.dart';
 
-import '../modules/chat_image/bindings/chat_image_binding.dart';
-import '../modules/chat_image/views/chat_image_view.dart';
-import '../modules/chat_text/bindings/chat_text_binding.dart';
-import '../modules/chat_text/views/chat_text_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
+import '../features/chat_image/views/chat_image_view.dart';
+import '../features/home/views/home_view.dart';
 
-part 'app_routes.dart';
-
-class AppPages {
-  AppPages._();
-
-  static const INITIAL = Routes.HOME;
-
-  static final routes = [
-    GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
-    GetPage(
-      name: _Paths.CHAT_IMAGE,
-      page: () => const ChatImageView(),
-      binding: ChatImageBinding(),
-    ),
-    GetPage(
-      name: _Paths.CHAT_TEXT,
-      page: () => const ChatTextView(),
-      binding: ChatTextBinding(),
-    ),
-  ];
+class Routes {
+  static const String chatScreen = '/chatScreen';
+  static const String imageScreen = '/imageScreen';
+  static const String favoriteScreen = '/favoriteScreen';
+  static const String showScreen = '/showScreen';
+  static Map<String, Widget Function(BuildContext)> routes(
+      [String image = "assets/ai-art.webp"]) {
+    return {
+      '/': (p0) {
+        return const HomeView();
+      },
+      Routes.chatScreen: (p0) {
+        return const ChatTextView();
+      },
+      Routes.imageScreen: (p0) {
+        return const ChatImageView();
+      },
+      Routes.favoriteScreen: (p0) {
+        return const FavoritePage();
+      },
+      Routes.showScreen: (p0) {
+        return ShowImage(image: image);
+      },
+    };
+  }
 }
